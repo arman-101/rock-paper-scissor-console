@@ -1,9 +1,10 @@
 let humanScore = 0;
 let computerScore = 0;
+let answer = "";
 
 // computer choice
 
-function compChoice() {
+function getComputerChoice() {
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
@@ -16,76 +17,58 @@ function compChoice() {
   return choice;
 }
 
-// human choice
-
-function getHumanChoice() {
-  const humanChoice = prompt(
-    "Choose between 'rock' 'paper' 'scissors': "
-  ).toLowerCase();
-  console.log(humanChoice);
-  return humanChoice;
-}
-
 // logic and output
 
 function playGame(humanChoice, computerChoice) {
   if (humanChoice === computerChoice) {
-    console.log("Draw!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
-
-    console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "draw";
   } else if (humanChoice === "rock" && computerChoice === "scissors") {
-    console.log("Human Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
     humanScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "Human wins + 1";
   } else if (humanChoice === "paper" && computerChoice === "rock") {
-    console.log("Human Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
     humanScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "Human wins + 1";
   } else if (humanChoice === "scissors" && computerChoice === "paper") {
-    console.log("Human Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
     humanScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "Human wins + 1";
   } else if (computerChoice === "rock" && humanChoice === "scissors") {
-    console.log("Computer Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
     computerScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "Computer wins + 1";
   } else if (computerChoice === "paper" && humanChoice === "rock") {
-    console.log("Computer Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
     computerScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
-  } else if (computerChoice === "scirros" && humanChoice === "paper") {
-    console.log("Computer Wins!");
-    console.log(`Human chose: ${humanChoice}`);
-    console.log(`Computer chose: ${computerChoice}`);
+    answer = "Computer wins + 1";
+  } else if (computerChoice === "scissors" && humanChoice === "paper") {
     computerScore++;
-        console.log(`Human score is ${humanScore}`)
-    console.log(`Computer score is ${computerScore}`)
+    answer = "Computer wins + 1";
   }
 }
 
-// play 5 times
+const buttons = document.querySelectorAll("button");
 
-for (let i = 0; i < 5; i++) {
-  const humanChoice = getHumanChoice();
-  const computerChoice = compChoice();
+buttons.forEach((button) =>
+  button.addEventListener("click", (e) => {
+    const humanChoice = e.target.textContent.toLowerCase();
 
-  playGame(humanChoice, computerChoice);
-}
+    playGame(humanChoice, getComputerChoice());
+
+    const answerDiv = document.querySelector(".result");
+    answerDiv.textContent = answer;
+
+    const humanScoreDiv = document.querySelector(".human-score");
+    humanScoreDiv.textContent = "Human Score: " + humanScore;
+    const computerScoreDiv = document.querySelector(".computer-score");
+    computerScoreDiv.textContent = "Computer Score: " + computerScore;
+
+    if (humanScore == 5) {
+      alert("Human won to 5 points!");
+
+      humanScore = 0;
+      computerScore = 0;
+    } else if (computerScore == 5) {
+      alert("Computer won to 5 points!");
+
+      humanScore = 0;
+      computerScore = 0;
+    }
+  })
+);
